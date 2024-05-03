@@ -16,11 +16,13 @@ class PostStructure
 
     public function create()
     {
-        $slug = $getSlug($this->title);
     }
 
-    public function getSlug(string $title): string
+    /**
+     * Get the slug for the post.
+     */
+    public function getSlug(): string
     {
-        return (new SlugNormalizer())->normalize($title);
+        return (new SlugNormalizer())->normalize($this->title);
     }
 }
