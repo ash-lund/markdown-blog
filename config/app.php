@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'marker' => [
+        'directory' => env('MARKER_DIRECTORY', 'marker'),
+    ],
 ];

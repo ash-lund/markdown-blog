@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
 return new class extends Migration
@@ -10,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Storage::disk('local')->makeDirectory('markdown');
+        Storage::disk('local')->makeDirectory(Config::get('app.marker.directory'));
     }
 
     /**
@@ -18,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Storage::disk('local')->deleteDirectory('markdown');
+        Storage::disk('local')->deleteDirectory(Config::get('app.marker.directory'));
     }
 };
