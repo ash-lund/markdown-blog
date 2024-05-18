@@ -54,7 +54,6 @@ class MarkerCreatePostStructure extends Command
             categories: $categories,
             publishedAt: $publishedAt,
         );
-
-        dd($postStructure);
+        $postStructure->create();
     }
 }
