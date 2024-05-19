@@ -21,3 +21,24 @@ test('structure object is complete', function () {
     expect($postStructure->publishedAt)->toBe($post['publishedAt']);
     expect($postStructure->slug)->toBe('my-awesome-post');
 });
+
+test('that the folder and config is created', function () {
+    $post = [
+        'title' => 'My awesome post',
+        'categories' => [
+            'php',
+            'laravel',
+            'testing',
+        ],
+        'publishedAt' => date('Y-m-d H:i:s'),
+    ];
+    $postStructure = new \App\PostStructure(
+        title: $post['title'],
+        categories: $post['categories'],
+        publishedAt: $post['publishedAt'],
+    );
+    $postStructure->create();
+    $postDir = storage_path('app').'/'.Config::get('app.marker.directory').'/'.$postStructure->slug;
+
+    expect($postDir)->toBeDirectory();
+});
