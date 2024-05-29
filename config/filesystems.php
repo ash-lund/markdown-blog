@@ -56,6 +56,11 @@ return [
             'throw' => false,
         ],
 
+        'marker' => [
+            'driver' => 'local',
+            'root' => storage_path('app').'/'.config('app.marker.directory'),
+            'throw' => false,
+        ],
     ],
 
     /*

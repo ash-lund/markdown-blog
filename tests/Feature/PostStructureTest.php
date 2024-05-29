@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Yaml\Yaml;
+
 test('structure object is complete', function () {
     $post = [
         'title' => 'My awesome post',
@@ -41,4 +43,10 @@ test('that the folder and config is created', function () {
     $postDir = storage_path('app').'/'.Config::get('app.marker.directory').'/'.$postStructure->slug;
 
     expect($postDir)->toBeDirectory();
+    expect($postDir.'/config.yaml')->toBeFile();
+
+    $post['slug'] = $postStructure->slug;
+    $config = Yaml::parseFile($postDir.'/config.yaml');
+
+    expect($config)->toMatchArray($post);
 });

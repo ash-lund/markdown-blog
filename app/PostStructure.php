@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Normalizer\SlugNormalizer;
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,9 +23,12 @@ class PostStructure
 
     public function create()
     {
-        $config = Yaml::dump($this, 2, 4, Yaml::DUMP_OBJECT);
+        $config = Yaml::dump((array) $this, 2, 4, Yaml::DUMP_OBJECT);
+        if (! Storage::disk('marker')->exists($this->slug)) {
+            Storage::disk('marker')->makeDirectory($this->slug);
+        }
 
-        echo $config;
+        Storage::disk('marker')->put($this->slug.'/config.yaml', $config);
     }
 
     /**
