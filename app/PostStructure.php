@@ -23,7 +23,7 @@ class PostStructure
 
     public function create()
     {
-        $config = Yaml::dump((array) $this, 2, 4, Yaml::DUMP_OBJECT);
+        $config = Yaml::dump((array) $this, 2, 4);
         if (! Storage::disk('marker')->exists($this->slug)) {
             Storage::disk('marker')->makeDirectory($this->slug);
         }
