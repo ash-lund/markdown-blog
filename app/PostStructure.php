@@ -36,6 +36,15 @@ class PostStructure
      */
     public function getSlug(): string
     {
-        return (new SlugNormalizer())->normalize($this->title);
+        $convertedTitle = strtr($this->title, [
+            'Æ' => 'ae',
+            'Ø' => 'oe',
+            'Å' => 'aa',
+            'æ' => 'ae',
+            'ø' => 'oe',
+            'å' => 'aa',
+        ]);
+
+        return (new SlugNormalizer())->normalize($convertedTitle);
     }
 }
