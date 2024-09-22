@@ -2,6 +2,6 @@
     <h2>Latest posts</h2>
 
     @foreach($posts as $post)
-        <livewire:post.post :$post />
+        <livewire:frontpage.post :$post />
     @endforeach
 </div>

@@ -45,7 +45,7 @@ test('structure object is complete', function () {
     expect($postStructure->publishedAt)->toBe($this->post['publishedAt']);
 });
 
-test('that the folder and config is created', function () {
+test('that the folder, config and markdown file is created', function () {
     $postStructure = new \App\PostStructure(
         title: $this->post['title'],
         categories: $this->post['categories'],
@@ -56,6 +56,7 @@ test('that the folder and config is created', function () {
     $postDir = Storage::disk('marker')->path($postStructure->slug);
     expect($postDir)->toBeDirectory();
     expect($postDir.'/config.yaml')->toBeFile();
+    expect($postDir.'/post.md')->toBeFile();
 
     $this->post['slug'] = $postStructure->slug;
     $config = Yaml::parseFile($postDir.'/config.yaml');

@@ -29,6 +29,7 @@ class PostStructure
         }
 
         Storage::disk('marker')->put($this->slug.'/config.yaml', $config);
+        Storage::disk('marker')->put($this->slug.'/post.md', "# {$this->title}\n\n");
     }
 
     /**
