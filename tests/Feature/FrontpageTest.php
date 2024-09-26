@@ -1,5 +1,26 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
+
+beforeEach(function () {
+    $this->post = [
+        'title' => 'My awesome post with ÆØÅ',
+        'categories' => [
+            'php',
+            'laravel',
+            'testing',
+        ],
+        'publishedAt' => date('Y-m-d H:i:s'),
+    ];
+});
+
+afterAll(function () {
+    $postDir = Storage::disk('marker')->path('my-awesome-post-with-aeoeaa');
+    if (is_dir($postDir)) {
+        Storage::disk('marker')->deleteDirectory('my-awesome-post-with-aeoeaa');
+    }
+});
+
 it('shows frontpage', function () {
     $response = $this->get('/');
 
@@ -8,8 +29,15 @@ it('shows frontpage', function () {
 });
 
 it('shows latest posts on frontpage', function () {
+    $postStructure = new \App\PostStructure(
+        title: $this->post['title'],
+        categories: $this->post['categories'],
+        publishedAt: $this->post['publishedAt'],
+    );
+    $postStructure->create();
+
     $response = $this->get('/');
     $response->assertSeeText('Latest posts');
-
-    expect(substr_count($response->getContent(), '<h1>') >= 2)->toBe(true);
+    $response->assertSeeText($this->post['title']);
+    $response->assertSeeText($this->post['publishedAt']);
 });
