@@ -21,12 +21,16 @@ class Post
     {
         $folders = Storage::disk('marker')->allDirectories();
         $posts = array_map(function ($folder) {
+            $config = Yaml::parse(Storage::disk('marker')->get($folder.'/config.yaml'));
             $postFileContent = Storage::disk('marker')->get($folder.'/post.md');
             $postContent = (new CommonMarkConverter())->convert($postFileContent)->getContent();
 
             return [
-                'config' => Yaml::parse(Storage::disk('marker')->get($folder.'/config.yaml')),
-                'content' => Str::limit($postContent, 500, '...'),
+                'title' => $config['title'],
+                'slug' => $config['slug'],
+                'published_at' => $config['publishedAt'],
+                'categories' => $config['categories'],
+                'content' => Str::limit($postContent, 200, '...'),
             ];
         }, $folders);
 
